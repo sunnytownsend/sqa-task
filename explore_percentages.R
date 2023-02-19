@@ -25,7 +25,13 @@ nat5_A = extract_percentages(data = nat5,
                              attainment_label = "A", 
                              level_label = "National 5")
 
-
+nat5_AC = extract_percentages(data = nat5,
+                              cols = which(names(nat5) %in% c("Grade.A.C.Percentage.2019",  
+                                                              "Grade.A.C.Percentage.2020",  
+                                                              "Grade.A.C.Percentage.2021",  
+                                                              "Grade.A.C.Percentage.2022")),
+                              attainment_label = "A-C", 
+                              level_label = "National 5")
 # Highers ----
 high_A = extract_percentages(data = high,
                              cols = which(names(high) %in% c("Grade.A.Percentage.2019",  
@@ -35,6 +41,13 @@ high_A = extract_percentages(data = high,
                              attainment_label = "A", 
                              level_label = "Highers")
 
+high_AC = extract_percentages(data = high,
+                              cols = which(names(high) %in% c("Grade.A.C.Percentage.2019",  
+                                                              "Grade.A.C.Percentage.2020",  
+                                                              "Grade.A.C.Percentage.2021",  
+                                                              "Grade.A.C.Percentage.2022")),
+                              attainment_label = "A-C", 
+                              level_label = "Highers")
 
 # advanced highers ----
 adv_A = extract_percentages(data = adv,
@@ -45,18 +58,31 @@ adv_A = extract_percentages(data = adv,
                             attainment_label = "A", 
                             level_label = "Advanced Highers")
 
+adv_AC = extract_percentages(data = adv,
+                             cols = which(names(adv) %in% c("Grade.A.C.Percentage.2019",  
+                                                            "Grade.A.C.Percentage.2020",  
+                                                            "Grade.A.C.Percentage.2021",  
+                                                            "Grade.A.C.Percentage.2022")),
+                             attainment_label = "A-C", 
+                             level_label = "Advanced Highers")
 
 
 # combine into dataset for analysis and visualisation ----
-data_A = rbind(adv_A, nat5_A, high_A)
+perc_data = rbind(adv_A, nat5_A, high_A, adv_AC, nat5_AC, high_AC)
 
 
 # bar chart ----
 png("outputs/A_profiles.png")
-ggplot(data_A, aes(fill=as.factor(year), y=percentage, x=level)) + 
+filter(perc_data, attainment == "A") %>%
+  ggplot(aes(fill=as.factor(year), y=percentage, x=level)) + 
   geom_bar(position="dodge", stat="identity")
 dev.off()
 
+png("outputs/AC_profiles.png")
+filter(perc_data, attainment == "A-C") %>%
+  ggplot(aes(fill=as.factor(year), y=percentage, x=level)) + 
+  geom_bar(position="dodge", stat="identity")
+dev.off()
 
 # tests ----
 nat5_A$percentage[1] == 
