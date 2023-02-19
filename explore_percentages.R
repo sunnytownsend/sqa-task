@@ -85,7 +85,7 @@ filter(perc_data, attainment == "A-C") %>%
 dev.off()
 
 # line plot ----
-perc_data %>%
+filter(perc_data, attainment == "A") %>%
   ggplot(aes(x=year, y=percentage, group=level, color=level)) +
   geom_line()
 
