@@ -55,7 +55,6 @@ nat5_A = extract_percentages(data = nat5,
                                                        "Grade.A.Percentage.2022")),
                         attainment_label = "A", 
                         level_label = "National 5")
-with(nat5_A, barplot(percentage ~ year))
 
 #test
 nat5_A$percentage[1] == 
@@ -77,7 +76,6 @@ high_A = extract_percentages(data = high,
                                                             "Grade.A.Percentage.2022")),
                              attainment_label = "A", 
                              level_label = "Highers")
-with(high_A, barplot(percentage ~ year))
 
 #test
 high_A$percentage[1] == 
