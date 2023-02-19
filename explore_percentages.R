@@ -70,6 +70,11 @@ adv_AC = extract_percentages(data = adv,
 # combine into dataset for analysis and visualisation ----
 perc_data = rbind(adv_A, nat5_A, high_A, adv_AC, nat5_AC, high_AC)
 
+# add exam variable
+perc_data$exams = NA
+perc_data[which(perc_data$year %in% c(2019,2022)), "exams"] = "yes"
+perc_data[which(perc_data$year %in% c(2020,2021)), "exams"] = "no"
+
 
 # bar chart ----
 png("outputs/A_profiles.png")
@@ -88,6 +93,20 @@ dev.off()
 filter(perc_data, attainment == "A") %>%
   ggplot(aes(x=year, y=percentage, group=level, color=level)) +
   geom_line()
+
+# exam bar chart
+png("outputs/A_exams.png")
+filter(perc_data, attainment == "A") %>%
+  ggplot(aes(fill=as.factor(exams), y=percentage, x=level)) + 
+  geom_bar(position="dodge", stat="identity")
+dev.off()
+
+png("outputs/AC_exams.png")
+filter(perc_data, attainment == "A-C") %>%
+  ggplot(aes(fill=as.factor(exams), y=percentage, x=level)) + 
+  geom_bar(position="dodge", stat="identity")
+dev.off()
+
 
 # tests ----
 nat5_A$percentage[1] == 
