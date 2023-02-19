@@ -84,6 +84,11 @@ filter(perc_data, attainment == "A-C") %>%
   geom_bar(position="dodge", stat="identity")
 dev.off()
 
+# line plot ----
+perc_data %>%
+  ggplot(aes(x=year, y=percentage, group=level, color=level)) +
+  geom_line()
+
 # tests ----
 nat5_A$percentage[1] == 
   nat5[which(nat5$Subject == "Total"), "Grade.A.Percentage.2022"] %>%
