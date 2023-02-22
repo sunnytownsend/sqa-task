@@ -76,36 +76,64 @@ perc_data[which(perc_data$year %in% c(2019,2022)), "exams"] = "yes"
 perc_data[which(perc_data$year %in% c(2020,2021)), "exams"] = "no"
 
 
-# bar chart ----
-png("outputs/A_profiles.png")
+# bar charts ----
+
+# level on x axis
+png("outputs/A_year.png")
 filter(perc_data, attainment == "A") %>%
   ggplot(aes(fill=as.factor(year), y=percentage, x=level)) + 
-  geom_bar(position="dodge", stat="identity")
+  geom_bar(position="dodge", stat="identity") +
+  ylim(0, 100)
 dev.off()
 
-png("outputs/AC_profiles.png")
+png("outputs/AC_year.png")
 filter(perc_data, attainment == "A-C") %>%
   ggplot(aes(fill=as.factor(year), y=percentage, x=level)) + 
-  geom_bar(position="dodge", stat="identity")
+  geom_bar(position="dodge", stat="identity") +
+  ylim(0, 100)
 dev.off()
-
-# line plot ----
-filter(perc_data, attainment == "A") %>%
-  ggplot(aes(x=year, y=percentage, group=level, color=level)) +
-  geom_line()
 
 # exam bar chart
 png("outputs/A_exams.png")
 filter(perc_data, attainment == "A") %>%
-  ggplot(aes(fill=as.factor(exams), y=percentage, x=level)) + 
-  geom_bar(position="dodge", stat="identity")
+  ggplot(aes(fill=exams, y=percentage, x=level)) + 
+  geom_bar(position="dodge", stat="identity") +
+  ylim(0, 100)
 dev.off()
 
 png("outputs/AC_exams.png")
 filter(perc_data, attainment == "A-C") %>%
-  ggplot(aes(fill=as.factor(exams), y=percentage, x=level)) + 
-  geom_bar(position="dodge", stat="identity")
+  ggplot(aes(fill=exams, y=percentage, x=level)) + 
+  geom_bar(position="dodge", stat="identity") +
+  ylim(0, 100)
 dev.off()
+
+# year on x axis
+png("outputs/A_levels.png")
+filter(perc_data, attainment == "A") %>%
+  ggplot(aes(fill=level, y=percentage, x=year)) + 
+  geom_bar(position="dodge", stat="identity") +
+  ylim(0, 100)
+dev.off()
+
+png("outputs/AC_levels.png")
+filter(perc_data, attainment == "A-C") %>%
+  ggplot(aes(fill=level, y=percentage, x=year)) + 
+  geom_bar(position="dodge", stat="identity") +
+  ylim(0, 100)
+dev.off()
+
+
+# line plot ----
+filter(perc_data, attainment == "A") %>%
+  ggplot(aes(x=year, y=percentage, group=level, color=level)) +
+  geom_line() +
+  ylim(0, 100)
+
+filter(perc_data, attainment == "A-C") %>%
+  ggplot(aes(x=year, y=percentage, group=level, color=level)) +
+  geom_line() +
+  ylim(0, 100)
 
 
 # tests ----
